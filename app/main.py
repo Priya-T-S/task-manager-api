@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from app.models import Task
 
 app = FastAPI(title="Task Manager API")
@@ -27,3 +27,12 @@ def create_task(task: Task):
 @app.get("/tasks")
 def get_tasks():
     return tasks
+
+@app.delete("/tasks/{task_id}")
+def delete_task(task_id: int):
+    for task in tasks:
+        if task["id"] == task_id:
+            tasks.remove(task)
+            return {"message": "Task deleted successfully"}
+
+    raise HTTPException(status_code=404, detail="Task not found")
