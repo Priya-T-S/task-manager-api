@@ -23,3 +23,7 @@ def create_task(task: Task):
     tasks.append(task_data)
 
     return task_data
+
+@app.get("/tasks")
+def get_tasks():
+    return tasks
