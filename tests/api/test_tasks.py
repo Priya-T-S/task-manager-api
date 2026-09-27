@@ -2,6 +2,7 @@ import pytest
 from fastapi.testclient import TestClient
 from app.main import app, tasks
 
+pytestmark = pytest.mark.api
 
 client = TestClient(app)
 
