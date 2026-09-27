@@ -4,6 +4,7 @@ from app.models import Task
 app = FastAPI(title="Task Manager API")
 
 tasks = []
+next_id = 1
 
 
 @app.get("/")
@@ -13,20 +14,23 @@ def root():
 
 @app.post("/tasks")
 def create_task(task: Task):
-    task_id = len(tasks) + 1
+    global next_id
 
     task_data = {
-        "id": task_id,
+        "id": next_id,
         **task.model_dump()
     }
 
     tasks.append(task_data)
+    next_id += 1
 
     return task_data
+
 
 @app.get("/tasks")
 def get_tasks():
     return tasks
+
 
 @app.delete("/tasks/{task_id}")
 def delete_task(task_id: int):
